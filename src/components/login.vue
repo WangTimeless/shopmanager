@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
     <el-form class="form" label-position="top" label-width="80px" :model="formData">
-        <h2>用户登录</h2>
+      <h2>用户登录</h2>
       <el-form-item label="用户名">
         <el-input v-model="formData.username"></el-input>
       </el-form-item>
@@ -24,20 +24,22 @@ export default {
     }
   },
   methods: {
-    handleLogin () {
-      this.$http
-        .post('login', this.formData)
-        .then((res) => {
-        //   console.log(res)
-          const {data: {meta: {msg, status}}} = res
-          if (status === 200) {
-            this.$router.push({
-               name: "home"
-            });
-          } else {
-            this.$message.warning(msg);
-          }
+    async handleLogin () {
+      const res = await this.$http.post('login', this.formData)
+      const {
+        data: {
+          meta: { msg, status },
+          data
+        }
+      } = res
+      if (status === 200) {
+        localStorage.setItem('token', data.token)
+        this.$router.push({
+          name: 'home'
         })
+      } else {
+        this.$message.warning(msg)
+      }
     }
   }
 }
@@ -45,20 +47,20 @@ export default {
 
 <style>
 .wrap {
-    height: 100%;
-    background-color: #324152;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: 100%;
+  background-color: #324152;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.wrap .form{
-    background-color: #fff;
-    border-radius: 10px;
-    width: 400px;
-    padding: 30px;
+.wrap .form {
+  background-color: #fff;
+  border-radius: 10px;
+  width: 400px;
+  padding: 30px;
 }
 .wrap .form .btn {
-    width: 100%;
+  width: 100%;
 }
 </style>
