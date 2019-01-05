@@ -19,15 +19,15 @@
     </el-header>
     <el-container>
       <el-aside width="200px" class="aside">
-        <el-menu unique-opened default-active="2">
+        <el-menu router unique-opened default-active="2">
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>用户管理</span>
             </template>
 
-            <el-menu-item index="1-3">
-              <i class="el-icon-location"></i>
+            <el-menu-item index="users">
+              <i class="el-icon-success"></i>
               用户列表
             </el-menu-item>
           </el-submenu>
@@ -93,31 +93,33 @@
           </el-submenu>
         </el-menu>
       </el-aside>
-      <el-main class="main">Main</el-main>
+      <el-main class="main">
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
 export default {
-  beforeCreate(){
+  beforeCreate () {
     if (!localStorage.getItem('token')) {
-      this.$message.warning("请先登录");
+      this.$message.warning('请先登录')
       this.$router.push({
-        name:'login'
-      });
+        name: 'login'
+      })
     }
   },
-  methods:{
-    handleLoginout(){
-      localStorage.clear();
+  methods: {
+    handleLoginout () {
+      localStorage.clear()
       this.$router.push({
-        name:'login'
-      });
+        name: 'login'
+      })
       this.$message.success('退出成功')
     }
   }
-};
+}
 </script>
 
 <style>
